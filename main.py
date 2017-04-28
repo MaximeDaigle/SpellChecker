@@ -1,7 +1,6 @@
 import io
 from HashTable import HashTable
 from Suggestion import Suggestion
-from TextToTab import TextToTab
 
 with io.open('dict.txt','r',encoding='utf8') as f:
     dictionnaire = f.read()
@@ -13,6 +12,7 @@ dictionnaire = dictionnaire.split('\n')
 hashTable = HashTable(len(dictionnaire))
 
 alphabet = set()
+
 #placer chaque mots du dictionnaires dans le hashtable
 for i in dictionnaire:
     hashTable.set(i)
@@ -22,19 +22,17 @@ for i in dictionnaire:
 
 #Creer l'alphabet
 alphabet = list(alphabet)
-#alphabet = "abcdefghijklmnopqrstuvwxyz"
-
 
 with io.open('input.txt','r',encoding='utf8') as f:
     inputTxt = f.read()
 
 #retire les ponctuations
-phrase = TextToTab(inputTxt)
-phrase.setMot()
+phrase = ''.join( char for char in inputTxt if char not in '.,:;!?\'\"').split(" ")
 
 correctedInput = ''
-#regarde chaque mot du test input
-for mot in phrase.tabMot:
+
+#regarde chaque mot du text input
+for mot in phrase:
 
     #Si mot correctement orthographier (i.e est dans le dictionnaire), passer au prochain mot
     if hashTable.get(mot.lower()):
@@ -56,20 +54,14 @@ for mot in phrase.tabMot:
 
     #verifier si pas deux mots coller
     for motPotentiel in suggestion.tabPaire:
-        pass #TODO
+        if hashTable.get(motPotentiel[0]) and hashTable.get(motPotentiel[1]):
+            bonneSuggestion.append(motPotentiel[0] + ' '+ motPotentiel[1])
 
     #enleve les repetition et ajoute les bonnes suggestions l'input corriger
     correctedInput += ', '.join(set(bonneSuggestion)) + ')'
 
-    #enleve espace de trop devant le premier mot
-    correctedInput = correctedInput.strip(' ')
+
+#enleve espace de trop devant le premier mot
+correctedInput = correctedInput.strip(' ')
 
 print(correctedInput)
-
-
-
-# for mot in range(len(phrase.tabMot)):
-# 	suggTest = Suggestion(phrase.tabMot[mot], alphabet)
-# 	suggTest.createSuggestion()
-# 	print(suggTest.tab)
-# 	#print(suggTest.tabPaire)

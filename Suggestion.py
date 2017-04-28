@@ -5,12 +5,11 @@ class Suggestion:
 		self.tab = []
 		self.tabPaire =[]
 		self.mot = mot
-		# il faudra modifier les autres class pour que l'alphabet se crée a partir de dict.txt
 		self.alphabet = alphabet
 
 
 	def createSuggestion(self):
-		# on appellera toutes les méthodes de suggestions de mots qu'il faut ici pour remplir le self.tab
+		#appelle toutes les méthodes de suggestions de mots
 		self.intervertir()
 		self.supprimer()
 		self.inserer()
@@ -37,7 +36,6 @@ class Suggestion:
 
 
 	def inserer(self):
-		# il faudra modifier le code pour creer l'alphabet a partir de dict.txt
 		for lettre in range(len(self.mot)+1):
 			for char in self.alphabet:
 				motTemp = self.mot
